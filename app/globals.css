@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0f1e2e;
+  --gold: #c9972b;
+  --cream: #faf8f4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.hero-grid-overlay {
+  background-image:
+    linear-gradient(rgba(201, 151, 43, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 151, 43, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.hero-glow {
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 40%,
+    rgba(201, 151, 43, 0.18) 0%,
+    transparent 70%
+  );
+}
+
+.fade-up {
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up-hidden {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.fade-up-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
