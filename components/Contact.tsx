@@ -14,6 +14,8 @@ const interests = [
 export default function Contact() {
   const { ref, inView } = useInView()
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
     name: '',
     agency: '',
@@ -28,10 +30,23 @@ export default function Contact() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submission:', form)
-    setSubmitted(true)
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error('Failed to send')
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please try again or email us directly.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -147,11 +162,16 @@ export default function Contact() {
                 />
               </div>
 
+              {error && (
+                <p className="text-red-600 text-sm text-center">{error}</p>
+              )}
+
               <button
                 type="submit"
-                className="mt-2 bg-navy text-cream py-4 px-8 text-sm font-bold tracking-widest uppercase hover:bg-navy-light transition-colors duration-200 w-full"
+                disabled={loading}
+                className="mt-2 bg-navy text-cream py-4 px-8 text-sm font-bold tracking-widest uppercase hover:bg-navy-light transition-colors duration-200 w-full disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send Message
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           )}
